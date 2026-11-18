@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!-- The iPhone / iPad app: the game's www unchanged in a Cordova iOS shell (cordova-ios 8.1.1, cordova-plugin-file 8.1.3 - the game engine
+     reads data.js through it on iOS). Same app id as the Android APK. -->
+<widget id="com.altero.minidayzreimagined" version="2.3.9" ios-CFBundleVersion="27.3" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Minidayz+ Reimagined</name>
+    <description>MDZ+ Reimagined 2.3.9-mp27c3</description>
+    <content src="index.html" />
+    <access origin="*" />
+    <preference name="scheme" value="app" />
+    <preference name="hostname" value="localhost" />
+    <preference name="Orientation" value="landscape" />
+    <preference name="DisallowOverscroll" value="true" />
+    <preference name="AllowInlineMediaPlayback" value="true" />
+    <preference name="MediaTypesRequiringUserActionForPlayback" value="none" />
+    <preference name="SuppressesIncrementalRendering" value="false" />
+    <preference name="BackgroundColor" value="0xff000000" />
+    <preference name="AutoHideSplashScreen" value="true" />
+    <preference name="FadeSplashScreen" value="false" />
+    <platform name="ios">
+        <icon src="res/icon-1024.png" width="1024" height="1024" />
+        <edit-config file="*-Info.plist" mode="overwrite" target="UIStatusBarHidden"><true /></edit-config>
+        <edit-config file="*-Info.plist" mode="overwrite" target="UIViewControllerBasedStatusBarAppearance"><false /></edit-config>
+        <edit-config file="*-Info.plist" mode="overwrite" target="UIRequiresFullScreen"><true /></edit-config>
+        <edit-config file="*-Info.plist" mode="overwrite" target="UISupportedInterfaceOrientations">
+            <array><string>UIInterfaceOrientationLandscapeLeft</string><string>UIInterfaceOrientationLandscapeRight</string></array>
+        </edit-config>
+        <edit-config file="*-Info.plist" mode="overwrite" target="UISupportedInterfaceOrientations~ipad">
+            <array><string>UIInterfaceOrientationLandscapeLeft</string><string>UIInterfaceOrientationLandscapeRight</string></array>
+        </edit-config>
+        <!-- servers and LAN games are ws:// (no TLS) -->
+        <edit-config file="*-Info.plist" mode="overwrite" target="NSAppTransportSecurity">
+            <dict><key>NSAllowsArbitraryLoads</key><true /><key>NSAllowsArbitraryLoadsInWebContent</key><true /><key>NSAllowsLocalNetworking</key><true /></dict>
+        </edit-config>
+        <edit-config file="*-Info.plist" mode="overwrite" target="NSLocalNetworkUsageDescription"><string>Find and join LAN games on your network.</string></edit-config>
+        <edit-config file="*-Info.plist" mode="overwrite" target="NSMicrophoneUsageDescription"><string>Voice chat with other survivors in multiplayer.</string></edit-config>
+        <edit-config file="*-Info.plist" mode="overwrite" target="ITSAppUsesNonExemptEncryption"><false /></edit-config>
+    </platform>
+</widget>

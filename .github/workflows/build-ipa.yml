@@ -1,0 +1,113 @@
+# Builds the iPhone / iPad app (.ipa, unsigned: players sign it when they sideload it) on a GitHub Mac, from www/ unchanged.
+# 1. www/ = the released game byte for byte (ios/www-manifest.json)
+# 2. the servers' anti-cheat on WebKit (Apple's engine): the game in Chromium (a server) and WebKit (Safari / the app's files) - nothing to punish
+# 3. Cordova iOS app; the app's www = www/ + the iOS Cordova files the servers accept (ios/tools/check-platform.cjs); Xcode archive, no signing
+# 4. the .ipa as a workflow artifact, and on the release (tag "v" + ios/version.txt) when run from main
+name: Build iOS app (.ipa)
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ipa-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CORDOVA_VERSION: "13.0.0"
+  CORDOVA_IOS_VERSION: "8.1.1"
+  FILE_PLUGIN_VERSION: "8.1.3"
+  PLAYWRIGHT_VERSION: "1.64.1"
+
+jobs:
+  anticheat-webkit:
+    name: Anti-cheat on WebKit
+    runs-on: macos-15
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: www is the released game
+        run: node ios/tools/check-www.cjs check www ios/www-manifest.json
+      - name: Playwright (Chromium + WebKit)
+        run: |
+          mkdir -p "$RUNNER_TEMP/pw" && cd "$RUNNER_TEMP/pw" && npm init -y >/dev/null && npm install --no-audit --no-fund "playwright@$PLAYWRIGHT_VERSION"
+          npx playwright install chromium webkit
+      - name: The servers' anti-cheat judges WebKit players
+        run: PLAYWRIGHT_MODULE="$RUNNER_TEMP/pw/node_modules/playwright" node ios/tools/webkit-ac.cjs www
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: webkit-screens
+          path: "*.png"
+          if-no-files-found: ignore
+
+  ipa:
+    name: Build the .ipa
+    needs: anticheat-webkit
+    runs-on: macos-15
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: www is the released game
+        run: node ios/tools/check-www.cjs check www ios/www-manifest.json
+      - name: Cordova iOS project
+        run: |
+          npm install -g --no-audit --no-fund "cordova@$CORDOVA_VERSION"
+          cordova telemetry off
+          cordova create "$RUNNER_TEMP/app" com.altero.minidayzreimagined "Minidayz+ Reimagined"
+          cd "$RUNNER_TEMP/app"
+          rm -rf www && cp -R "$GITHUB_WORKSPACE/www" www
+          cp "$GITHUB_WORKSPACE/ios/config.xml" config.xml
+          mkdir -p res && cp "$GITHUB_WORKSPACE/ios/res/icon-1024.png" res/
+          cordova platform add "ios@$CORDOVA_IOS_VERSION" --no-telemetry
+          cordova plugin add "cordova-plugin-file@$FILE_PLUGIN_VERSION" --no-telemetry
+          cordova prepare ios --no-telemetry
+      - name: The app's www = the game + the servers' iOS files
+        run: node ios/tools/check-platform.cjs "$RUNNER_TEMP/app/platforms/ios/www" ios/platform_www www ios/ac-platform.json
+      - name: Xcode archive (unsigned)
+        run: |
+          cd "$RUNNER_TEMP/app/platforms/ios"
+          xcodebuild -version
+          if [ -d App.xcworkspace ]; then SRC=(-workspace App.xcworkspace); else SRC=(-project App.xcodeproj); fi
+          xcodebuild "${SRC[@]}" -scheme App -configuration Release -sdk iphoneos -destination "generic/platform=iOS" \
+            -archivePath "$RUNNER_TEMP/App.xcarchive" archive \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" DEVELOPMENT_TEAM="" | tail -40
+          test -d "$RUNNER_TEMP/App.xcarchive/Products/Applications"
+      - name: Package the .ipa
+        id: pkg
+        run: |
+          V="$(tr -d ' \r\n' < ios/version.txt)"
+          NAME="MDZ-Reimagined-$V-iOS-unsigned.ipa"
+          cd "$RUNNER_TEMP" && rm -rf Payload && mkdir Payload
+          cp -R App.xcarchive/Products/Applications/*.app Payload/
+          # the game inside the app is still the released game, byte for byte
+          APPWWW="$(ls -d Payload/*.app)/www"
+          node "$GITHUB_WORKSPACE/ios/tools/check-platform.cjs" "$APPWWW" "$GITHUB_WORKSPACE/ios/platform_www" "$GITHUB_WORKSPACE/www" "$GITHUB_WORKSPACE/ios/ac-platform.json" | tail -1
+          zip -qry "$NAME" Payload
+          ls -la "$NAME"
+          echo "name=$NAME" >> "$GITHUB_OUTPUT"
+          echo "version=$V" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.pkg.outputs.name }}
+          path: ${{ runner.temp }}/${{ steps.pkg.outputs.name }}
+          if-no-files-found: error
+      - name: Release
+        if: github.ref == 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="v${{ steps.pkg.outputs.version }}"
+          F="$RUNNER_TEMP/${{ steps.pkg.outputs.name }}"
+          if gh release view "$TAG" >/dev/null 2>&1; then gh release upload "$TAG" "$F" --clobber
+          else gh release create "$TAG" "$F" --title "MDZ+ Reimagined ${{ steps.pkg.outputs.version }} (iOS)" --notes-file ios/release-notes.md; fi

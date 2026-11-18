@@ -26,12 +26,7 @@ This repository guards against that in three ways:
 
 - `www/` is the released game, byte for byte. [`ios/www-manifest.json`](ios/www-manifest.json) holds the size and SHA-256 of every file, and the build stops if any file differs.
 - `.gitattributes` (`* -text`) stops git from changing line endings.
-- The only files of the app that are not the game's are iOS Cordova's own:
-  - `cordova.js`
-  - the plugin list
-  - `cordova-plugin-file`, which the game engine needs to read its files on iOS
-
-  These are kept in [`ios/platform_www`](ios/platform_www). The servers (2.3.9-mp27c3 of 18 November 2026 and later) accept exactly these files, by the hashes in [`ios/ac-platform.json`](ios/ac-platform.json).
+- The only files of the app that are not the game's are iOS Cordova's own: `cordova.js`, the plugin list and `cordova-plugin-file`, kept in [`ios/platform_www`](ios/platform_www). The game's `index.html` loads Cordova only on Android, so on iPhone the game runs as it does in Safari and these files are not even loaded. If they ever are, the servers (2.3.9-mp27c3 of 18 November 2026 and later) accept exactly these files, by the hashes in [`ios/ac-platform.json`](ios/ac-platform.json).
 
 ## How the app is built
 
@@ -63,4 +58,5 @@ Only change Cordova or plugin versions together with a game build that knows the
 What the iOS app cannot do:
 
 - **Host a LAN game.** Android's built-in server (MDZHost) is Java-only. Joining LAN games, servers and P2P games works.
+- **Save a world export to a file.** That uses Android's file access; worlds and survivors are still saved inside the app as usual.
 - **Play some sounds, on some iPhones.** About a hundred of the game's newer sounds exist only as `.ogg`, which some iOS versions can't play; those sounds are then silent.

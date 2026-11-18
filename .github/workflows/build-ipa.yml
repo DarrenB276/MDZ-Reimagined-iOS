@@ -63,7 +63,6 @@ jobs:
       - name: Cordova iOS project
         run: |
           npm install -g --no-audit --no-fund "cordova@$CORDOVA_VERSION"
-          cordova telemetry off
           cordova create "$RUNNER_TEMP/app" com.altero.minidayzreimagined "Minidayz+ Reimagined"
           cd "$RUNNER_TEMP/app"
           rm -rf www && cp -R "$GITHUB_WORKSPACE/www" www

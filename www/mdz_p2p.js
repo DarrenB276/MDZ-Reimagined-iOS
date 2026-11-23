@@ -242,6 +242,13 @@
         if (m.t === "kick" && c.role === "host") { var x = r.clients.get(String(m.id)); if (x) { this.send(x, { t: "refused", reason: m.reason === "banned" ? "banned" : "kicked", text: String(m.text || "").slice(0, 120) }); setTimeout(function () { self.wsClose(x); }, 80); } return; }
         if (m.t === "meta" && c.role === "host") { var d = m.data || {}; r.meta = { lvl: d.lvl === null || d.lvl === undefined ? undefined : Number(d.lvl), rows: Number(d.rows) || 0,
             time: d.time === null || d.time === undefined ? undefined : Number(d.time), region: String(d.region || "").slice(0, 40), host: String(d.host || "").slice(0, 24) }; return; }
+        // (round 55 follow-up 4, as hub.cjs) the host's live server settings: the player limit, the password, the name (the room list too)
+        if (m.t === "roominfo" && c.role === "host") { var rd = m.data || {};
+            if (rd.max !== undefined && isFinite(Number(rd.max))) r.max = Math.max(2, Math.min(MAX_PLAYERS, Math.round(Number(rd.max))));
+            if (typeof rd.pw === "string") r.pw = rd.pw.slice(0, 64);
+            if (typeof rd.name === "string" && rd.name.trim()) r.name = rd.name.trim().slice(0, 90);
+            if (typeof rd.pvp === "boolean") r.pvp = rd.pvp;
+            this.admitQueued(r); try { this.listPost("announce"); } catch (e) { } return; }
         if (m.t === "state" || m.t === "icons") return;      // (for a relay's admin web page: there is none here)
         if (m.t !== "msg") return;
         var out = { t: "msg", from: c.id, tag: String(m.tag), data: m.data };

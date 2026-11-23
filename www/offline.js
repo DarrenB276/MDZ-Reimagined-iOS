@@ -1,5 +1,5 @@
 {
-  "version": "2.3.8-ab37c6ccdbe5b1e2",
+  "version": "2.3.8-a2b5a7beb538342c",
   "fileList": [
     "bunker_json",
     "c2runtime.js",

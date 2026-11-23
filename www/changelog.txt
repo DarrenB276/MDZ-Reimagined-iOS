@@ -18,8 +18,12 @@ Plays with 2.3.9-mp27c4 players and servers only.
 - Built walls, gates and window walls: you can no longer walk into them from behind - you stop at the wall instead of standing inside its picture.
 - Companions stand still while they shoot, step back when they reload or get hurt, then stand and fight again.
 - Saves > "Back up all" / "Restore all": everything the game keeps on your device (worlds, survivors, progress, unlocks, settings) in one .zip file, with a progress window. Restore it on the same or another device (PC and phone); the game restarts after.
-- Options > Game > "Server settings": the multiplayer world rules in the game. Outside a session they are the rules your hosted worlds start with; while you host they change your world at once.
-- In-game options (single player): "Host this world" under GUI Scale - your game is saved, this world becomes your server's world and the server starts at once with your Multiplayer > Host settings. A server world saved before is replaced (a copy of it is kept).
+- Saves: a notice comes first - Save world / Export / Import and Load are experimental and may damage your progress; use Back up all / Restore all (it keeps your worlds, Player UID, achievements, unlocks and characters - also for moving to future updates). Back up all and Restore all are on the notice too.
+- In-game options (single player): "Host this world" under GUI Scale - set your server up first (name, password, max players, how players join, PvP and the world rules), then Host now: your game is saved, this world becomes your server's world and the server starts with those settings. A server world saved before is replaced (a copy of it is kept).
+- In-game options while you host (or as an admin): "Server settings" - change the server's name, password and max players for players who join from now on, and PvP and the world rules at once. (The main menu's Options no longer has Server settings.)
+- Options on small screens and small windows: PC keybindings, "Choose your controls" and the Saves notice shrink to fit the screen (nothing under the banner or off the edges).
+- Range without a scope: the SCAR-17 and MCX Spear reach as far as the FN FAL (400), the KAC SR-25 (both colours) as far as the M70 (600). Scopes add to it as before (SCAR + Long Range Scope: 600). Grips and suppressors never changed it.
+- (MP) The adrenaline injector no longer makes you unkillable: on a server it gives +30 health and 30% less damage for its 20 seconds, takes 20 health when it wears off (not below 10), and the next one works 60 seconds after it ends (the injector is kept if you try sooner). Single player is unchanged.
 - (MP) Two players picking up the same item at the same moment no longer both get it ("Someone else picked it up first.").
 - Walls with a window: opening and closing them quickly no longer lets anyone through.
 - Dismantling a slightly damaged gate no longer asks you to repair it first.
@@ -43,6 +47,8 @@ Plays with 2.3.9-mp27c4 players and servers only.
 - (Servers) Admins can delete the items lying on the ground within a radius (around them, or at the server's top-left corner). Dropped items in the top-left corner now disappear like anywhere else.
 - (Servers) A server.json the server cannot read (saved with Notepad's BOM, a missing comma) is no longer replaced with the default settings: the server says what is wrong and waits for the fix (a BOM is fine now).
 - (Servers) The Restart button restarts the world once (it no longer restarts over and over). Servers restart by themselves every 3 hours, with warnings 10, 5 and 1 minute and 30 seconds before.
+- (Servers) A North America server joins the list.
+- (Servers) Rules edited in server.json reach the world after a Restart (before: only after the server program was started again), and an admin's own in-game rule changes are kept through restarts. A Restart never changes server.json.
 
 === UPDATE 2.3.9-mp27c3 ===
 

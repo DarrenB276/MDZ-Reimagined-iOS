@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
 <!-- The iPhone / iPad app: the game's www unchanged in a Cordova iOS shell (cordova-ios 8.1.1, cordova-plugin-file 8.1.3 - the game engine
      reads data.js through it on iOS). Same app id as the Android APK. -->
-<widget id="com.altero.minidayzreimagined" version="2.3.9" ios-CFBundleVersion="27.3" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.altero.minidayzreimagined" version="2.3.9" ios-CFBundleVersion="27.4" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Minidayz+ Reimagined</name>
-    <description>MDZ+ Reimagined 2.3.9-mp27c3</description>
+    <description>MDZ+ Reimagined 2.3.9-mp27c4</description>
     <content src="index.html" />
     <access origin="*" />
     <preference name="scheme" value="app" />

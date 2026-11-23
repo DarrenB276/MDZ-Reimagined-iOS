@@ -1,5 +1,5 @@
 {
-  "version": "2.3.8-49804353ee348e33",
+  "version": "2.3.8-ab37c6ccdbe5b1e2",
   "fileList": [
     "bunker_json",
     "c2runtime.js",
@@ -2271,6 +2271,7 @@
     "localization/l_zh_ui.xml",
     "localization/manifest.json",
     "localization/stat-parity.json",
+    "mdz_backup.js",
     "mdz_lighting.js",
     "mdz_menu_extras.js",
     "mdz_p2p.js",

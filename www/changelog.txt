@@ -4,6 +4,46 @@ MiniDayZ+ Reimagined by Civert0. This list covers versions 2.3.4 to 2.3.9-mp27.
 Everything marked (MP) is for multiplayer only, (SP) for single player only.
 
 
+=== UPDATE 2.3.9-mp27c4 ===
+
+Plays with 2.3.9-mp27c4 players and servers only.
+
+- Switch between auto-aim and manual aim at any time: tap the target switch (Keyboard: Z). It is dimmed while you aim by hand.
+- Auto-aim has four target modes, changed with the small button beside the target switch (Keyboard: G): Default (players, NPCs, infected and animals - no vehicles), Players and infected, Vehicles, Animals. New icons.
+- (MP) Empty vehicles are no longer auto-aimed (Vehicles mode aims only at vehicles with a player inside). They can still be damaged and destroyed. In single player the Vehicles mode aims at every vehicle.
+- Armed vehicles (Humvee turret ...): the gun follows the target modes and can be aimed by hand - the mouse on PC, the aim stick or a swipe on touch screens.
+- New pictures for the SCAR-17 card, the inventory slots and the attachment slots.
+- Options > Aiming starts with "Controls: Auto-aim / Manual ...": tap it for the pictured choice of controls (your current one marked, with Cancel); it returns to Options.
+- Vanilla controls keep the Auto-aim button on the screen (hide it in Show / hide buttons if you want).
+- Built walls, gates and window walls: you can no longer walk into them from behind - you stop at the wall instead of standing inside its picture.
+- Companions stand still while they shoot, step back when they reload or get hurt, then stand and fight again.
+- Saves > "Back up all" / "Restore all": everything the game keeps on your device (worlds, survivors, progress, unlocks, settings) in one .zip file, with a progress window. Restore it on the same or another device (PC and phone); the game restarts after.
+- Options > Game > "Server settings": the multiplayer world rules in the game. Outside a session they are the rules your hosted worlds start with; while you host they change your world at once.
+- In-game options (single player): "Host this world" under GUI Scale - your game is saved, this world becomes your server's world and the server starts at once with your Multiplayer > Host settings. A server world saved before is replaced (a copy of it is kept).
+- (MP) Two players picking up the same item at the same moment no longer both get it ("Someone else picked it up first.").
+- Walls with a window: opening and closing them quickly no longer lets anyone through.
+- Dismantling a slightly damaged gate no longer asks you to repair it first.
+- Codelocks lock the gate in front of you (not a window wall, a tent or another gate nearby).
+- KAC SR-25: its suppressor (the 7.62 / .308 suppressors fit) and bipod no longer vanish; its tan version ejects its cases too.
+- MCX Spear: the 50-round magazine keeps its rounds after a restart and when you take it off.
+- The Magpul sits on the magazine's foot of the MCX Spear and the KAC SR-25 (both colours), as on the SCAR-17.
+- The gun sling and weapon cases keep a rifle's attachments, colour and magazine.
+- The KAC SR-25's Harris bipod stays on after you leave the game and come back - in your hands or on the gun sling, in single player and on servers.
+- Switching weapons with the gun sling while the game is paused no longer copies the weapon.
+- Armed infected and NPCs no longer shoot while the game is paused.
+- Night vision, rain and sunlight filters no longer block taps on the buttons below them, and they cover the whole screen when you zoom out.
+- The green and blue night vision and the other screen filters no longer cover the screen when they are off (a game saved with the first mp27c4 build is fixed when you continue it).
+- The controls editor (button positions) is no longer oversized after you leave a world.
+- An Ammo Box is never emptied by a fill that moved no rounds.
+- The minimap keeps what you explored when it is redrawn.
+- Line of sight no longer hides fences and the map's other obstacles (sandbags, concrete blocks, benches, haystacks ...) - only items fade out of sight.
+- The airport's infected spread out inside its fence instead of standing in clumps.
+- Farm animals stop breeding when crowded (at most 6 pigs or 10 hens close together).
+- (Servers) A player who leaves must wait before joining again (60 seconds by default; the server's rule "Seconds a player who left must wait").
+- (Servers) Admins can delete the items lying on the ground within a radius (around them, or at the server's top-left corner). Dropped items in the top-left corner now disappear like anywhere else.
+- (Servers) A server.json the server cannot read (saved with Notepad's BOM, a missing comma) is no longer replaced with the default settings: the server says what is wrong and waits for the fix (a BOM is fine now).
+- (Servers) The Restart button restarts the world once (it no longer restarts over and over). Servers restart by themselves every 3 hours, with warnings 10, 5 and 1 minute and 30 seconds before.
+
 === UPDATE 2.3.9-mp27c3 ===
 
 Plays with 2.3.9-mp27c3 players and servers only.

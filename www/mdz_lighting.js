@@ -2615,8 +2615,10 @@ void main(void) {
         Survivors2: 1, s_pants2: 1, s_clothing2: 1, s_vests2: 1, s_helmets2: 1, s_backpack2: 1, s_weapons2: 1,
         player: 1, player_pants: 1, player_hands: 1, player_clothing: 1, player_vests: 1, player_helmets: 1, player_backpacks: 1, player_weapons: 1,
         items_on_ground: 1, Rain: 1 };
-    const VIS_KEEP_IMG = /^berry_bush|^car_save|waypoint/;   // on items_on_ground, but scenery
-    const VIS_RAIN_IMG = /^npc_hp_bar|^zed_.*shadow/;          // the Rain layer: only zombie health bars and shadows
+    // on items_on_ground, but scenery: (round 55, the user: "make the fence visible, its being hidden by the line of sight") the map's
+    // obstacles and props (create_map_location spawns them on items_on_ground: fences, sandbags, blocks, stones, benches, haystacks,
+    // field plots, eggs, wrecks, HESCO), plants and player barrels; only loot and such fade out of sight
+    const VIS_KEEP_IMG = /^berry_bush|^car_save|waypoint|^obst_|^pad\d*_obst_|^fence_|^hesco|^ee_|^b_|^shidui|^3g_egg|^ws_egg|^xlzx|^pillar|^lighthouse|^waterpump|^plant_|^barrel_base|^spawn_loot/;    const VIS_RAIN_IMG = /^npc_hp_bar|^zed_.*shadow/;          // the Rain layer: only zombie health bars and shadows
     const VIS_NEAR2 = 2 * 2;                                // the player's own sprites: always seen
     const VIS_PUSH = 0;                                      // the ground's dark starts this far behind a wall line
     const V = { on: false, frame: 0, ex: 0, ey: 0, gx: 1e9, gy: 1e9, R: 0, R2: 0, segs: [], n: 0, at: 0, last: 0, dt: 0, done: false,

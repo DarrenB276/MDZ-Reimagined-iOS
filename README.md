@@ -1,6 +1,6 @@
 # MDZ+ Reimagined for iPhone / iPad
 
-The iOS app of **MDZ+ Reimagined** (2.3.9-mp27c3). It is the same game as the Android APK and the PC build, so it plays on the same multiplayer servers.
+The iOS app of **MDZ+ Reimagined** (2.3.9-mp27c4). It is the same game as the Android APK and the PC build, so it plays on the same multiplayer servers.
 
 **Download:** get the `.ipa` from [Releases](../../releases). It is unsigned: your sideloading tool signs it during the install.
 
